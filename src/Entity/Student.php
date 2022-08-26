@@ -2,11 +2,9 @@
 
 namespace Alura\Doctrine\Entity;
 
-use Doctrine\ORM\Mapping\Entity; 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\GeneratedValue;
 
 /**
  * @ORM\Entity
@@ -20,6 +18,10 @@ class Student
      */
     public int $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Phone::class, mappedBy="student", cascade={"persist", "remove"})
+     */
+    private Collection $phones;
     
     public function __construct(
 
@@ -28,6 +30,17 @@ class Student
          */
         public string $name)
     {
+        $this->phones = new ArrayCollection();
+    }
 
+    public function addPhone(Phone $phone)
+    {
+        $this->phones->add($phone);
+        $phone->setStudent($this);
+    }
+    
+    public function phones(): Collection
+    {
+        return $this->phones;
     }
 }
