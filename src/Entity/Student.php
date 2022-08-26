@@ -18,7 +18,7 @@ class Student
      * @ORM\GeneratedValue
      * @ORM\Column
      */
-    public readonly int $id;
+    public int $id;
 
     
     public function __construct(
@@ -26,7 +26,7 @@ class Student
         /**
          * @ORM\Column
          */
-        public readonly string $name)
+        public string $name)
     {
 
     }
