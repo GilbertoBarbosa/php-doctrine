@@ -22,6 +22,11 @@ class Student
      * @ORM\OneToMany(targetEntity=Phone::class, mappedBy="student", cascade={"persist", "remove"})
      */
     private Collection $phones;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Course::class, inversedBy="students")
+     */
+    private Collection $courses;
     
     public function __construct(
 
@@ -43,4 +48,23 @@ class Student
     {
         return $this->phones;
     }
+
+    public function courses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function enrollInCourse(Course $course): void
+    {
+        if ($this->courses->contains($course)) {
+            return;
+        }
+        
+        $this->course->add($course);
+        $course->addStudent($this);
+    }
 }
+
+/*$student = new Student('Sofia');
+$course = new Course('Doctrine');
+$student->enrollInCourse($course);*/
